@@ -18,7 +18,7 @@ class SqlHelper {
       database = await openDatabase(path, version: 1,
           onCreate: (Database db, int version) async {
         await db.execute(
-            'CREATE TABLE $todoTable ( ID INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT,  discription TEXT,)');
+            'CREATE TABLE $todoTable ( ID INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT,discription TEXT)');
       });
 
     } catch (_) {}

@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stratagile_machine_test/application/home/local_db_provider.dart';
 import 'package:stratagile_machine_test/presentation/home/home_screen.dart';
 
-void main() {
+import 'core/constents.dart';
+import 'infrastructure/home/sql_helper.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SqlHelper.initDb();
+
   runApp(const MyApp());
 }
 
@@ -11,13 +19,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => LocalDBProvider(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Stratagile_machine_test',
+        debugShowCheckedModeBanner: false,
+        scaffoldMessengerKey: Constants.messengerKey,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const HomeScreen(),
       ),
-      home: const HomeScreen(),
     );
   }
 }
